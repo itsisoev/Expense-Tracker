@@ -1,27 +1,61 @@
-# Frontend
+# 💸 Expense Tracker
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.1.0.
+> Персональный трекер расходов с графиками, темами, PWA, десктоп-версией и GraphQL API.
 
-## Development server
+---
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## 🧩 Описание проекта
 
-## Code scaffolding
+**Expense Tracker** — это современное приложение для учёта доходов и расходов. Подходит как для личного использования, так и для демонстрации навыков fullstack-разработки. Поддерживает графики, историю транзакций, тёмную/светлую тему, десктоп-версию (Electron), PWA и API на GraphQL.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+---
 
-## Build
+## 🔥 Фичи
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- ✅ CRUD доходов и расходов
+- 📈 Графики трат: неделя, 4 недели, 3/6/12 месяцев
+- 🧾 История транзакций с пагинацией
+- 🌗 Переключение темы (тёмная / светлая)
+- 🧠 Аналитика по категориям (в разработке)
+- 🖥️ Десктоп-версия на Electron
+- 🛰️ PWA: оффлайн-режим, установка
+- 🔐 Аутентификация и роли (в разработке)
+- 📁 Импорт / экспорт данных (в разработке)
 
-## Running unit tests
+---
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## ⚙️ Стек технологий
 
-## Running end-to-end tests
+| Layer         | Технологии                                                     |
+|---------------|----------------------------------------------------------------|
+| Frontend      | Angular (standalone components), RxJS, SCSS,  GraphQL (Apollo) |
+| Backend       | NestJS, GraphQL (Apollo), REST (auth)                          |
+| Database      | PostgreSQL, Prisma ORM                                         |
+| DevOps        | Docker, docker-compose, GitHub Actions                         |
+| Desktop       | Electron                                                       |
+| PWA           | Angular PWA, Service Workers                                   |
+| Общие         | TypeScript, ESLint, Prettier                                   |
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+---
 
-## Further help
+## 🧱 Архитектура
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+### Frontend (Angular)
+- Standalone компоненты
+- RxJS для реактивного стейта
+- Сервисная архитектура (по фичам)
+- Темизация через custom SCSS
+- PWA: offline-first, Service Workers
+- Apollo Angular для GraphQL
+
+### Backend (NestJS)
+- Модули по фичам
+- GraphQL API + REST эндпоинты
+- DTO, валидация, гварды
+- Prisma ORM для PostgreSQL
+- JWT аутентификация (в планах)
+
+### Docker
+- `docker-compose` для разработки
+- Отдельные контейнеры: frontend, backend, db
+- Prod-ready конфигурация (в разработке)
