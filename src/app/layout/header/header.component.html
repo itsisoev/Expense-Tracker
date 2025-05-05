@@ -2,29 +2,19 @@
   <div class="sidebar-container__left">
     <h3>Expense Tracker</h3>
 
-    <ul class="links">
-      <li>
-        <a href="#">
-          Основное
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          Отчет
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          История
-        </a>
-      </li>
+    <ul class="links" [class.open]="menuOpen()">
+      @for (link of links(); track link) {
+        <li>
+          <a [href]="link.href">{{ link.label }}</a>
+        </li>
+      }
     </ul>
   </div>
 
   <div class="sidebar-container__right">
-    <layout-theme-toggle />
+    <layout-theme-toggle/>
 
-    <ul class="links">
+    <ul class="link">
       <li>
         <a href="#">
           <svg viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" width="20"
@@ -49,4 +39,34 @@
       </li>
     </ul>
   </div>
+</div>
+
+<div class="btn-burger" (click)="toggleMenu()">
+  @if (menuOpen()) {
+    <svg viewBox="0 0 24 24" fill="none" width="25" xmlns="http://www.w3.org/2000/svg">
+      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+      <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+      <g id="SVGRepo_iconCarrier">
+        <path d="M6 6L18 18M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round"></path>
+      </g>
+    </svg>
+  } @else {
+    <svg viewBox="0 0 24 24" width="25" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+      <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+      <g id="SVGRepo_iconCarrier">
+        <g clip-path="url(#clip0_429_11066)">
+          <path d="M3 6.00092H21M3 12.0009H21M3 18.0009H21" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+        </g>
+        <defs>
+          <clipPath id="clip0_429_11066">
+            <rect width="24" height="24" fill="white" transform="translate(0 0.000915527)"></rect>
+          </clipPath>
+        </defs>
+      </g>
+    </svg>
+  }
 </div>
