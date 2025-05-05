@@ -1,0 +1,36 @@
+.sidebar-container {
+  background-color: var(--background-card);
+  display: flex;
+  justify-content: space-between;
+
+  padding: 1.5rem 1rem;
+
+  &__left {
+    display: flex;
+    flex-wrap: wrap;
+
+    .links {
+      gap: 1.3rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-left: 2.5rem;
+    }
+  }
+
+  &__right {
+    gap: 0.9375rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .links {
+    list-style: none;
+
+    a {
+      color: var(--text-color);
+      text-decoration: none;
+    }
+  }
+}

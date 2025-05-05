@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ThemeService} from "../../core/services/theme.service";
 
 @Component({
-  selector: 'app-theme-toggle',
+  selector: 'layout-theme-toggle',
   standalone: true,
   imports: [],
   templateUrl: './theme-toggle.component.html',
