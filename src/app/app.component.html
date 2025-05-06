@@ -1,7 +1,11 @@
 <div class="app-container">
-  <div class="app-container__sidebar">
-    <layout-header />
-  </div>
+  @if (showHeader()) {
+    <div class="app-container__sidebar">
+      <layout-header/>
+    </div>
+  }
 
-  <div class="app-container__router"></div>
+  <div class="app-container__router">
+    <router-outlet></router-outlet>
+  </div>
 </div>
