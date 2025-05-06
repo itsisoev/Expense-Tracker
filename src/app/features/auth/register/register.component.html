@@ -1,0 +1,30 @@
+<form class="auth-container" [formGroup]="authForm" (submit)="onSubmit()">
+  <div class="auth-container__wrapper">
+    <p class="title">Register</p>
+
+    <div class="form">
+      <div class="input-group">
+        <label for="username">Username</label>
+        <input type="text" name="username" id="username" placeholder="" formControlName="username"/>
+      </div>
+
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" placeholder="" formControlName="password"/>
+      </div>
+
+      <button class="sign">Sign up</button>
+    </div>
+
+    <div class="social-message">
+      <div class="line"></div>
+      <p class="message">Register with social accounts</p>
+      <div class="line"></div>
+    </div>
+
+    <p class="signup">
+      Already have an account?
+      <a routerLink="/auth/login" class="">Sign in</a>
+    </p>
+  </div>
+</form>
