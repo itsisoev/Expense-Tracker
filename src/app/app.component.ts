@@ -2,11 +2,12 @@ import {Component, inject, signal} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, Router, RouterOutlet} from '@angular/router';
 import {HeaderComponent} from "./layout/header/header.component";
 import {filter} from "rxjs";
+import {AlertComponent} from "./shared/components/alert/alert.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent],
+  imports: [RouterOutlet, HeaderComponent, AlertComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
