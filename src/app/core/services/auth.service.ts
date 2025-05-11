@@ -2,7 +2,7 @@ import {Injectable, signal} from '@angular/core';
 import {IUser} from "../../shared/models/user.model";
 import {environment} from "../../../environments/environment.development";
 import {HttpClient} from "@angular/common/http";
-import {catchError, Observable, of, tap} from "rxjs";
+import {catchError, Observable, of, tap, throwError} from "rxjs";
 import {IAuth, IDecodedToken} from "../../shared/models/auth.model";
 import {JwtHelperService} from "@auth0/angular-jwt";
 
@@ -33,7 +33,7 @@ export class AuthService {
       tap((res) => this.handleAuthentication(res)),
       catchError((err) => {
         console.error('Registration error', err);
-        return of(null);
+        return throwError(() => err);
       })
     );
   }
@@ -51,7 +51,7 @@ export class AuthService {
       }),
       catchError((err) => {
         console.error('Login error', err);
-        return of(null);
+        return throwError(() => err);
       })
     );
   }
