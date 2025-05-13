@@ -12,6 +12,10 @@
   justify-content: center;
 
   &__switch {
+    gap: 1rem;
+    display: flex;
+    align-items: center;
+
     .radio-inputs {
       position: relative;
       display: flex;

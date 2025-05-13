@@ -1,0 +1,14 @@
+<button class="add-category-btn" (click)="openModal()">
+  Add Category
+</button>
+
+@if (isModalOpen()) {
+  <div class="modal-content">
+    <h2>Add Category</h2>
+    <form class="modal-content__form">
+      <input id="category-name" type="text">
+      <button type="submit">Submit</button>
+    </form>
+    <button (click)="closeModal()" class="close-modal">X</button>
+  </div>
+}
