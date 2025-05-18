@@ -12,9 +12,11 @@
   justify-content: center;
 
   &__switch {
+    width: 37.5rem;
     gap: 1rem;
     display: flex;
     align-items: center;
+    justify-content: space-between;
 
     .radio-inputs {
       position: relative;
@@ -111,4 +113,8 @@
       transform: scale(0.95);
     }
   }
+}
+
+.category-wrapper {
+  margin-top: 1rem;
 }

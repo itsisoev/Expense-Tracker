@@ -1,0 +1,108 @@
+.category-container {
+  &__title {
+    padding: 0 0.625rem;
+
+    h3 {
+      text-align: start;
+    }
+  }
+
+  &__input {
+    margin-top: 0.625rem;
+
+    input {
+      width: 38rem;
+      height: 3.125rem;
+      line-height: 1.75rem;
+      font-size: 0.9375rem;
+      padding: 0 1rem;
+      border: 2px solid transparent;
+      border-radius: 0.5rem;
+      outline: none;
+      background-color: var(--background-card);
+      transition: .3s ease;
+      color: var(--text-color);
+    }
+
+    input::placeholder {
+      color: var(--text-color);
+    }
+  }
+
+  &__categories {
+    gap: 1rem;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    margin-top: 1rem;
+  }
+
+  &__category-group {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+    width: 100%;
+    padding: 0.9375rem 1.25rem;
+    border-radius: 0.3125rem;
+    background-color: var(--background-card);
+
+    .radio {
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #30cfd0;
+      border-radius: 50%;
+      background-color: transparent;
+      display: inline-block;
+      position: relative;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+
+    .radio:before {
+      content: "";
+      background-color: #30cfd0;
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .radio:checked:before {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+
+    &:hover .category-container__actions {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
+  &__actions {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    gap: 0.5rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+
+    .action-btn {
+      cursor: pointer;
+      width: fit-content;
+      border: none;
+      color: var(--text-color);
+      outline: none;
+      background-color: transparent;
+    }
+  }
+}
