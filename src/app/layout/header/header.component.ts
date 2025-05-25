@@ -19,15 +19,9 @@ export interface HeaderLink {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent {
-  menuOpen = signal<boolean>(false);
-
   links = signal<HeaderLink[]>([
     {label: 'Основное', href: '/'},
     {label: 'Отчет', href: '#'},
     {label: 'История', href: '/history'}
   ])
-
-  toggleMenu() {
-    this.menuOpen.set(!this.menuOpen())
-  }
 }

@@ -29,4 +29,25 @@ export class CategoryService {
       tap(categories => this.categories.set(categories))
     )
   }
+
+  updateCategory(id: string, dto: Partial<CreateCategoryDto>) {
+    return this.http.patch<ICategory>(`${this.baseApi}/category/${id}`, dto).pipe(
+      tap((updatedCategory) => {
+        this.categories.update((categories) =>
+          categories.map((cat) => (cat.id === updatedCategory.id ? updatedCategory : cat))
+        );
+      })
+    );
+  }
+
+  deleteCategory(id: string) {
+    return this.http.delete<ICategory>(`${this.baseApi}/category/${id}`).pipe(
+      tap((deletedCategory) => {
+        this.categories.update((categories) =>
+          categories.filter((cat) => cat.id !== deletedCategory.id)
+        );
+      })
+    );
+  }
+
 }

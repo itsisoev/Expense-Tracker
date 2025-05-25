@@ -106,3 +106,63 @@
     }
   }
 }
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 999;
+}
+
+.modal {
+  width: 35.5rem;
+  position: fixed;
+  top: 50%;
+  left: 34%;
+  padding: 1.25rem;
+  border-radius: 0.3125rem;
+  background-color: var(--background-card);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+}
+
+.modal input {
+  width: 100%;
+  height: 3.125rem;
+  line-height: 1.75rem;
+  font-size: 0.9375rem;
+  padding: 0 1rem;
+  border: 2px solid transparent;
+  border-radius: 0.5rem;
+  outline: none;
+  background-color: var(--background-color);
+  transition: .3s ease;
+  color: var(--text-color);
+}
+
+.modal-btns {
+  margin-top: 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.modal-btns button {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 0.3125rem;
+  padding: 0.9375rem 0.625rem;
+  min-width: 3.75rem;
+}
+
+.btn-cancel {
+  color: white;
+  background-color: #e04242;
+}
+
+.btn-save {
+  color: white;
+  background-color: #3c933c;
+}

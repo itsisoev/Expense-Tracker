@@ -19,7 +19,7 @@
         <p>{{ category.title }}</p>
 
         <div class="category-container__actions">
-          <button class="action-btn edit">
+          <button class="action-btn edit" (click)="openEditModal(category)">
             <svg viewBox="0 0 24 24" width="20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
               <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -32,7 +32,7 @@
               </g>
             </svg>
           </button>
-          <button class="action-btn delete">
+          <button class="action-btn delete" (click)="openDeleteModal(category)">
             <svg viewBox="0 0 24 24" width="20" stroke="currentColor" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g id="SVGRepo_bgCarrier" stroke-width="0" stroke="currentColor"></g>
               <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"></g>
@@ -55,3 +55,35 @@
     }
   </div>
 </div>
+
+@if (openModal()) {
+  <div
+    class="modal-backdrop"
+    (click)="closeModal()"
+  ></div>
+}
+
+@if (openModal()) {
+  <div class="modal">
+    @if (modalType() === 'delete') {
+      <p>Вы действительно хотите удалить категорию <strong>{{ selectedCategory()?.title }}</strong>?</p>
+      <div class="modal-btns">
+        <button (click)="confirmDelete()" class="btn-save">Да</button>
+        <button (click)="closeModal()" class="btn-cancel">Нет</button>
+      </div>
+    }
+
+    @if (modalType() === 'edit') {
+      <input
+        [(ngModel)]="editTitle"
+        type="text"
+        placeholder="Новое название категории"
+      />
+
+      <div class="modal-btns">
+        <button (click)="saveEdit(selectedCategory()?.title ?? '')" class="btn-save">Сохранить</button>
+        <button (click)="closeModal()" class="btn-cancel">Отменить</button>
+      </div>
+    }
+  </div>
+}
