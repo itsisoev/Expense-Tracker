@@ -23,3 +23,11 @@
     </button>
   </div>
 }
+
+@if (isModalOpen()) {
+  <div
+    class="modal-backdrop"
+    (click)="closeModal()"
+  ></div>
+}
+
