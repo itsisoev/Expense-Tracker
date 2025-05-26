@@ -3,6 +3,7 @@ import {ActivatedRoute, NavigationEnd, Router, RouterOutlet} from '@angular/rout
 import {HeaderComponent} from "./layout/header/header.component";
 import {filter} from "rxjs";
 import {AlertComponent} from "./shared/components/alert/alert.component";
+import {DbService} from "./core/services/db.service";
 
 @Component({
   selector: 'app-root',
@@ -14,9 +15,15 @@ import {AlertComponent} from "./shared/components/alert/alert.component";
 export class AppComponent {
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
+  private db = inject(DbService);
+
   showHeader = signal<boolean>(true);
 
   constructor() {
+    this.db.categories.toArray().then(cats => {
+      console.log('[AppComponent] IndexedDB categories loaded:', cats);
+    });
+
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {

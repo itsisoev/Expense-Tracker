@@ -25,7 +25,7 @@ export class AuthService {
     this.isLoggedIn.set(false);
     this.userId.set('');
     this.userData.set(null);
-    sessionStorage.removeItem('access_token');
+    localStorage.removeItem('access_token');
   }
 
   register(data: { username: string; password: string }): Observable<IAuth | null> {
@@ -42,9 +42,10 @@ export class AuthService {
     return this.http.post<IAuth>(`${this.baseAPI}auth/login`, data).pipe(
       tap((res) => {
         if (res && res.token) {
-          sessionStorage.setItem('access_token', res.token);
+          localStorage.setItem('access_token', res.token);
           this.access_token.set(res.token);
           this.isLoggedIn.set(true);
+          this.validateToken();
         } else {
           console.error('No token received');
         }
@@ -70,7 +71,7 @@ export class AuthService {
   }
 
   private checkToken(): void {
-    const token = sessionStorage.getItem('access_token');
+    const token = localStorage.getItem('access_token');
     if (token) {
       this.access_token.set(token);
       this.validateToken();
@@ -96,7 +97,7 @@ export class AuthService {
 
   private handleAuthentication(res: IAuth): void {
     if (res && res.token && res.user.id) {
-      sessionStorage.setItem('access_token', res.token);
+      localStorage.setItem('access_token', res.token);
       this.access_token.set(res.token);
       this.userId.set(res.user.id);
       this.isLoggedIn.set(true);
