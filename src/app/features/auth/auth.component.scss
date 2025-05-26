@@ -120,3 +120,60 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .auth-container__wrapper {
+    width: 90%;
+    padding: 1.5rem;
+
+    .title {
+      font-size: 1.25rem;
+    }
+
+    .input-group {
+      font-size: 0.8125rem;
+    }
+
+    .sign {
+      font-size: 0.9375rem;
+      padding: 0.65rem;
+    }
+
+    .signup {
+      font-size: 0.75rem;
+    }
+
+    .social-message .message {
+      font-size: 0.8125rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-container__wrapper {
+    padding: 1rem;
+
+    .title {
+      font-size: 1.125rem;
+    }
+
+    .sign {
+      font-size: 0.875rem;
+      padding: 0.6rem;
+    }
+
+    .input-group input {
+      padding: 0.65rem 0.75rem;
+    }
+
+    .social-message {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .social-message .line {
+      display: none;
+    }
+  }
+}
+

@@ -166,3 +166,38 @@
   color: white;
   background-color: #3c933c;
 }
+
+@media (max-width: 768px) {
+  .category-container {
+    padding: 0 1rem;
+
+    &__input {
+      input {
+        width: 100%;
+      }
+    }
+
+    &__category-group {
+      padding-right: 3rem;
+    }
+
+  }
+
+  .modal {
+    width: 90%;
+    left: 5%;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 1rem;
+  }
+
+  .modal-btns {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: stretch;
+  }
+
+  .modal-btns button {
+    width: 100%;
+  }
+}
