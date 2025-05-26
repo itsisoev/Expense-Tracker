@@ -10,7 +10,6 @@ import {AlertComponent} from "../../../shared/components/alert/alert.component";
     imports: [
         RouterLink,
         ReactiveFormsModule,
-        AlertComponent
     ],
   templateUrl: './login.component.html',
   styleUrl: '../auth.component.scss',

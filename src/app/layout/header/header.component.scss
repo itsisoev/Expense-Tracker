@@ -2,26 +2,74 @@
   background-color: var(--background-card);
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 1.5rem 1rem;
+  position: relative;
+  z-index: 100;
 
   &__left {
     display: flex;
+    align-items: center;
     flex-wrap: wrap;
 
+    h3 {
+      font-size: 1.5rem;
+      margin: 0;
+    }
+
     .links {
-      gap: 1.3rem;
+      list-style: none;
       display: flex;
+      gap: 1.3rem;
       flex-wrap: wrap;
       align-items: center;
       margin-left: 2.5rem;
+
+      a {
+        color: var(--text-color);
+        text-decoration: none;
+      }
     }
   }
 
   &__right {
-    gap: 0.9375rem;
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 0.9375rem;
+
+    .burger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+      margin-left: 1rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 110;
+
+      span {
+        width: 22px;
+        height: 2px;
+        background-color: var(--text-color);
+        transition: all 0.3s ease-in-out;
+      }
+    }
+
+    .open {
+      span:nth-child(1) {
+        transform: rotate(45deg) translate(4px, 4px);
+      }
+
+      span:nth-child(2) {
+        opacity: 0;
+      }
+
+      span:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -5px);
+      }
+    }
 
     .link {
       list-style: none;
@@ -32,12 +80,62 @@
     }
   }
 
-  .links {
-    list-style: none;
+  @media (max-width: 768px) {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 
-    a {
-      color: var(--text-color);
-      text-decoration: none;
+    &__left {
+      h3 {
+        font-size: 1.3rem;
+      }
+
+      .links {
+        display: none;
+
+        &.open {
+          display: flex;
+          flex-direction: column;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          background-color: var(--background-card);
+          padding: 6rem 2rem 2rem;
+          z-index: 100;
+          gap: 1.5rem;
+          animation: slideDown 0.3s ease forwards;
+
+          li {
+            width: 100%;
+
+            a {
+              display: block;
+              width: 100%;
+              font-size: 1.2rem;
+              color: var(--text-color);
+            }
+          }
+        }
+      }
     }
+
+    &__right {
+      .burger {
+        display: flex;
+      }
+    }
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-20%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
 }

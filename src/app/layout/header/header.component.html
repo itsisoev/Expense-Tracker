@@ -2,7 +2,7 @@
   <div class="sidebar-container__left">
     <h3>Expense Tracker</h3>
 
-    <ul class="links">
+    <ul class="links" [class.open]="isOpen()">
       @for (link of links(); track link) {
         <li>
           <a [routerLink]="link.href">{{ link.label }}</a>
@@ -13,7 +13,6 @@
 
   <div class="sidebar-container__right">
     <layout-theme-toggle/>
-
     <ul class="link">
       <li>
         <a href="#">
@@ -38,5 +37,11 @@
         </a>
       </li>
     </ul>
+    <button class="burger" (click)="isMenuOpen()" [class.open]="isOpen()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
   </div>
 </div>

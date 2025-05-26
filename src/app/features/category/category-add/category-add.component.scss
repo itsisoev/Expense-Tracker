@@ -90,3 +90,46 @@
   background-color: rgba(0, 0, 0, 0.6);
   z-index: 999;
 }
+
+@media (max-width: 768px) {
+
+  .modal-content {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    height: auto;
+    max-height: 80vh;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+    overflow-y: auto;
+  }
+
+  .modal-content h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .modal-content__form input {
+    width: 100%;
+    font-size: 1rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .modal-content__form button {
+    width: 100%;
+    font-size: 1.1rem;
+    padding: 0.75rem;
+    margin-top: 1rem;
+    border-radius: 0.5rem;
+  }
+
+  .close-modal {
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+  }
+}

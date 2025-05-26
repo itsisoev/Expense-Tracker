@@ -24,4 +24,15 @@ export class HeaderComponent {
     {label: 'Отчет', href: '#'},
     {label: 'История', href: '/history'}
   ])
+
+  menuOpen = signal<boolean>(false);
+
+  isMenuOpen () {
+    this.menuOpen.set(!this.menuOpen());
+  };
+
+
+  isOpen() {
+    return this.menuOpen();
+  }
 }

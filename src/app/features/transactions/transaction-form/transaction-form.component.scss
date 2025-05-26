@@ -1,15 +1,10 @@
-:host {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
 .transaction-form-container {
   flex: 1;
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: center;
+  margin-top: 3.125rem;
 
   &__switch {
     width: 37.5rem;
@@ -17,6 +12,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
 
     .radio-inputs {
       position: relative;
@@ -31,30 +27,30 @@
       font-size: 14px;
     }
 
-    .radio-inputs .radio {
+    .radio {
       flex: 1 1 auto;
       text-align: center;
-    }
 
-    .radio-inputs .radio input {
-      display: none;
-    }
+      input {
+        display: none;
+      }
 
-    .radio-inputs .radio .name {
-      display: flex;
-      cursor: pointer;
-      align-items: center;
-      justify-content: center;
-      border-radius: 0.5rem;
-      border: none;
-      padding: .5rem 0;
-      color: var(--text-color);
-      transition: all .15s ease-in-out;
-    }
+      .name {
+        display: flex;
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0.5rem;
+        border: none;
+        padding: 0.5rem 0;
+        color: var(--text-color);
+        transition: all 0.15s ease-in-out;
+      }
 
-    .radio-inputs .radio input:checked + .name {
-      background-color: var(--background-color);
-      font-weight: 600;
+      input:checked + .name {
+        background-color: var(--background-color);
+        font-weight: 600;
+      }
     }
   }
 
@@ -63,6 +59,7 @@
     display: flex;
     align-items: center;
     margin-top: 1.875rem;
+    flex-wrap: wrap;
 
     input {
       width: 31.25rem;
@@ -74,7 +71,7 @@
       border-radius: 0.5rem;
       outline: none;
       background-color: var(--background-card);
-      transition: .3s ease;
+      transition: 0.3s ease;
       color: var(--text-color);
     }
 
@@ -111,4 +108,44 @@
 
 .category-wrapper {
   margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+  .transaction-form-container {
+    padding: 1rem;
+    margin-top: 3.125rem;
+    &__switch {
+      flex-direction: column;
+      align-items: stretch;
+      width: 100%;
+      gap: 1rem;
+
+      .radio-inputs {
+        width: 100%;
+        font-size: 1rem;
+      }
+
+      app-category-add {
+        align-self: flex-end;
+      }
+    }
+
+    &__added {
+      flex-direction: column;
+      align-items: stretch;
+      width: 100%;
+
+      input {
+        width: 100%;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+
+  .category-wrapper {
+    width: 100%;
+  }
 }
