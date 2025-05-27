@@ -6,24 +6,29 @@
   <div class="transaction-form-container__switch">
     <div class="radio-inputs">
       <label class="radio">
-        <input type="radio" name="radio" checked="">
+        <input type="radio" name="radio" [checked]="type() === 'income'" (change)="type.set('income')">
         <span class="name">Доход</span>
       </label>
 
       <label class="radio">
-        <input type="radio" name="radio">
+        <input type="radio" name="radio" [checked]="type() === 'expense'" (change)="type.set('expense')">
         <span class="name">Расход</span>
       </label>
     </div>
-    <app-category-add/>
+    <app-category-add />
   </div>
 
   <div class="transaction-form-container__added">
-    <input type="number" min="0" placeholder="Введите сумму...">
-    <button>Добавить</button>
+    <input type="number" min="0" placeholder="Введите сумму..." [(ngModel)]="amount"
+           (ngModelChange)="amount = $event">
+    <button (click)="onCreateTransaction()">Добавить</button>
   </div>
 
   <div class="category-wrapper">
-    <app-category/>
+    <app-category   (selectCategory)="setCategory($event)" />
   </div>
 </div>
+
+@if(isLoading()) {
+  <uc-loader />
+}

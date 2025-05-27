@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit, output, signal} from '@angular/core';
 import {CategoryService} from "./service/category.service";
 import {ICategory} from "../../shared/models/category.model";
 import {FormsModule} from "@angular/forms";
@@ -20,6 +20,8 @@ export class CategoryComponent implements OnInit {
   categoryService = inject(CategoryService);
   private toastr = inject(ToastrService);
 
+  selectCategory = output<{ id: string; title: string }>();
+
   editTitle: string = '';
 
   openModal = signal<boolean>(false);
@@ -31,6 +33,10 @@ export class CategoryComponent implements OnInit {
 
   ngOnInit() {
     this.getAllCategories();
+  }
+
+  selectCategoryEmit(category: ICategory) {
+    this.selectCategory.emit({ id: category.id, title: category.title });
   }
 
   getAllCategories() {

@@ -15,6 +15,7 @@
           class="radio"
           name="category"
           [value]="category.id"
+          (change)="selectCategoryEmit(category)"
         />
         <p>{{ category.title }}</p>
 
