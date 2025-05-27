@@ -3,6 +3,7 @@ import {Router, RouterLink} from "@angular/router";
 import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {AuthService} from "../../../core/services/auth.service";
 import {AlertComponent} from "../../../shared/components/alert/alert.component";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'auth-login',
@@ -17,17 +18,15 @@ import {AlertComponent} from "../../../shared/components/alert/alert.component";
 })
 export class LoginComponent {
   fb = inject(FormBuilder);
+  private toastr = inject(ToastrService);
+  private router = inject(Router);
+  private authService = inject(AuthService);
+
   authForm = this.fb.group({
     username: this.fb.control('', [Validators.required]),
     password: this.fb.control('', [Validators.required]),
   });
-
   errorMessage = signal<string>("");
-  alertType = signal<'error' | 'success' | 'info'>('error');
-
-
-  private router = inject(Router);
-  private authService = inject(AuthService);
 
   onSubmit() {
     const {username, password} = this.authForm.value;
@@ -39,14 +38,14 @@ export class LoginComponent {
     this.authService.login(userData).subscribe({
       next: (res) => {
         if (res?.status === 'success') {
-          this.alertType.set('success');
-          this.errorMessage.set(res.message);
+          this.toastr.success(res.message || 'Регистрация успешна', 'Успех');
           this.router.navigate(['/']);
+        } else {
+          this.toastr.error('Неизвестный ответ от сервера', 'Ошибка');
         }
       },
       error: (err) => {
-        this.alertType.set('error');
-        this.errorMessage.set(err.error?.message || 'Произошла ошибка');
+        this.toastr.error(err.error.message, 'Ошибка');
       }
     });
   }
