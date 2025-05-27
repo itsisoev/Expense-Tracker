@@ -2,16 +2,17 @@ import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core'
 import {Router, RouterLink} from "@angular/router";
 import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {AuthService} from "../../../core/services/auth.service";
-import {AlertComponent} from "../../../shared/components/alert/alert.component";
 import {ToastrService} from "ngx-toastr";
+import {LoaderComponent} from "../../../shared/components/loader/loader.component";
 
 @Component({
   selector: 'auth-login',
   standalone: true,
-    imports: [
-        RouterLink,
-        ReactiveFormsModule,
-    ],
+  imports: [
+    RouterLink,
+    ReactiveFormsModule,
+    LoaderComponent,
+  ],
   templateUrl: './login.component.html',
   styleUrl: '../auth.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -26,17 +27,22 @@ export class LoginComponent {
     username: this.fb.control('', [Validators.required]),
     password: this.fb.control('', [Validators.required]),
   });
-  errorMessage = signal<string>("");
+  isLoading = signal<boolean>(false);
 
   onSubmit() {
+    this.isLoading.set(true);
+
     const {username, password} = this.authForm.value;
     const userData = {
       username: username ?? '',
       password: password ?? '',
     };
 
+
     this.authService.login(userData).subscribe({
       next: (res) => {
+        this.isLoading.set(false);
+
         if (res?.status === 'success') {
           this.toastr.success(res.message || 'Регистрация успешна', 'Успех');
           this.router.navigate(['/']);
@@ -45,6 +51,7 @@ export class LoginComponent {
         }
       },
       error: (err) => {
+        this.isLoading.set(false);
         this.toastr.error(err.error.message, 'Ошибка');
       }
     });

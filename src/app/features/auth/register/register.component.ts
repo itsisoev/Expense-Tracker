@@ -2,8 +2,9 @@ import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core'
 import {Router, RouterLink} from "@angular/router";
 import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {AuthService} from "../../../core/services/auth.service";
-import {AlertComponent} from "../../../shared/components/alert/alert.component";
+
 import {ToastrService} from "ngx-toastr";
+import {LoaderComponent} from "../../../shared/components/loader/loader.component";
 
 @Component({
   selector: 'auth-register',
@@ -11,6 +12,7 @@ import {ToastrService} from "ngx-toastr";
   imports: [
     RouterLink,
     ReactiveFormsModule,
+    LoaderComponent,
   ],
   templateUrl: './register.component.html',
   styleUrl: '../auth.component.scss',
@@ -26,10 +28,11 @@ export class RegisterComponent {
     username: this.fb.control('', [Validators.required]),
     password: this.fb.control('', [Validators.required]),
   });
-  errorMessage = signal<string>("");
+  isLoading = signal<boolean>(false);
 
   onSubmit() {
-    this.errorMessage.set("");
+    this.isLoading.set(true);
+
     const {username, password} = this.authForm.value;
     const userData = {
       username: username ?? '',
@@ -38,6 +41,7 @@ export class RegisterComponent {
 
     this.authService.register(userData).subscribe({
       next: (res) => {
+        this.isLoading.set(false);
         if (res?.status === 'success') {
           this.toastr.success(res.message || 'Регистрация успешна', 'Успех');
           this.router.navigate(['/']);
@@ -46,6 +50,7 @@ export class RegisterComponent {
         }
       },
       error: (err) => {
+        this.isLoading.set(false);
         this.toastr.error(err.error.message, 'Ошибка');
       }
     });
