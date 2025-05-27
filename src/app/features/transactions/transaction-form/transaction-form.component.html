@@ -1,22 +1,26 @@
 <div class="transaction-form-container">
+  <div class="transaction-form-container__balance">
+    <balance/>
+  </div>
+
   <div class="transaction-form-container__switch">
     <div class="radio-inputs">
       <label class="radio">
         <input type="radio" name="radio" checked="">
-        <span class="name">Income</span>
+        <span class="name">Доход</span>
       </label>
 
       <label class="radio">
         <input type="radio" name="radio">
-        <span class="name">Expense</span>
+        <span class="name">Расход</span>
       </label>
     </div>
     <app-category-add/>
   </div>
 
   <div class="transaction-form-container__added">
-    <input type="number" min="0">
-    <button>Added</button>
+    <input type="number" min="0" placeholder="Введите сумму...">
+    <button>Добавить</button>
   </div>
 
   <div class="category-wrapper">

@@ -1,4 +1,6 @@
 .category-container {
+  margin-top: 3.125rem;
+
   &__title {
     padding: 0 0.625rem;
 
@@ -21,10 +23,6 @@
       outline: none;
       background-color: var(--background-card);
       transition: .3s ease;
-      color: var(--text-color);
-    }
-
-    input::placeholder {
       color: var(--text-color);
     }
   }

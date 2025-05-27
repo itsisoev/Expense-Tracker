@@ -1,10 +1,10 @@
 <button class="add-category-btn" (click)="openModal()">
-  Add Category
+  Добавить категорию
 </button>
 
 @if (isModalOpen()) {
   <div class="modal-content">
-    <h2>Add Category</h2>
+    <h2>Добавить категорию</h2>
     <form class="modal-content__form" (ngSubmit)="onSubmit()">
       <input id="category-name" type="text" [(ngModel)]="title" name="title">
       <button type="submit">Submit</button>
@@ -31,3 +31,6 @@
   ></div>
 }
 
+@if(isLoading()) {
+  <uc-loader />
+}

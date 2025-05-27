@@ -1,10 +1,10 @@
 <div class="category-container">
   <div class="category-container__title">
-    <h3>Select Categories</h3>
+    <h3>Категории</h3>
   </div>
 
   <div class="category-container__input">
-    <input type="text" placeholder="Search Category">
+    <input type="text" placeholder="Искать категории...">
   </div>
 
   <div class="category-container__categories">
@@ -86,4 +86,8 @@
       </div>
     }
   </div>
+}
+
+@if(isLoading()) {
+  <uc-loader />
 }
