@@ -1,5 +1,5 @@
 {
-  "name": "frontend",
+  "name": "Expense Tracker",
   "main": "main.js",
   "version": "0.0.0",
   "authors": "itsisoev",
@@ -47,7 +47,7 @@
   },
   "build": {
     "appId": "",
-    "productName": "Code Duel",
+    "productName": "Expense Tracker",
     "mac": {
       "category": "public.app-category.developer-tools",
       "target": [
