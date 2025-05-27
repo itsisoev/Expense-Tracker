@@ -1,16 +1,20 @@
 <div class="balance-container">
   <div class="balance-container__wrapper">
     <h3>Общий баланс</h3>
-    <h2>3000 ₽</h2>
+    <h2>{{ totalBalance() }} ₽</h2>
   </div>
 
   <div class="balance-container__wrapper">
     <h3>Доход</h3>
-    <h2>3000 ₽</h2>
+    <h2>{{ income() }} ₽</h2>
   </div>
 
   <div class="balance-container__wrapper">
     <h3>Расход</h3>
-    <h2>3000 ₽</h2>
+    <h2>{{ expense() }} ₽</h2>
   </div>
 </div>
+
+@if(isLoading()) {
+  <uc-loader />
+}
