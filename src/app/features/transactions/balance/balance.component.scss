@@ -1,0 +1,18 @@
+.balance-container {
+  gap: 1.25rem;
+  display: flex;
+
+  &__wrapper {
+    width: 100%;
+    color: var(--text-color);
+    background-color: var(--background-card);
+    padding: 1.25rem;
+    border-radius: 0.75rem;
+  }
+}
+
+@media (max-width: 768px)  {
+  .balance-container {
+    flex-direction: column;
+  }
+}

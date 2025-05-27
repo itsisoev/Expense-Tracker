@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'app-balance',
+  selector: 'balance',
   standalone: true,
   imports: [],
   templateUrl: './balance.component.html',

@@ -2,12 +2,15 @@ import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angul
 import {CategoryService} from "./service/category.service";
 import {ICategory} from "../../shared/models/category.model";
 import {FormsModule} from "@angular/forms";
+import {ToastrService} from "ngx-toastr";
+import {LoaderComponent} from "../../shared/components/loader/loader.component";
 
 @Component({
   selector: 'app-category',
   standalone: true,
   imports: [
-    FormsModule
+    FormsModule,
+    LoaderComponent
   ],
   templateUrl: './category.component.html',
   styleUrl: './category.component.scss',
@@ -15,12 +18,14 @@ import {FormsModule} from "@angular/forms";
 })
 export class CategoryComponent implements OnInit {
   categoryService = inject(CategoryService);
+  private toastr = inject(ToastrService);
 
   editTitle: string = '';
 
   openModal = signal<boolean>(false);
   modalType = signal<'edit' | 'delete' | null>(null);
   selectedCategory = signal<ICategory | null>(null);
+  isLoading = signal<boolean>(false);
 
   categories = this.categoryService.categories;
 
@@ -29,7 +34,17 @@ export class CategoryComponent implements OnInit {
   }
 
   getAllCategories() {
-    this.categoryService.getAllCategories().subscribe();
+    this.isLoading.set(true);
+
+    this.categoryService.getAllCategories().subscribe({
+      next: () => {
+        this.isLoading.set(false);
+      },
+      error: () => {
+        this.toastr.error('Ошибка при загрузке категорий');
+        this.isLoading.set(false);
+      }
+    });
   }
 
   openEditModal(category: ICategory) {
@@ -54,9 +69,19 @@ export class CategoryComponent implements OnInit {
   confirmDelete() {
     const id = this.selectedCategory()?.id;
     if (id) {
-      this.categoryService.deleteCategory(id).subscribe(() => {
-        this.getAllCategories();
-        this.closeModal();
+      this.isLoading.set(true);
+
+      this.categoryService.deleteCategory(id).subscribe({
+        next: (res) => {
+          this.getAllCategories();
+          this.closeModal();
+          this.isLoading.set(false);
+          this.toastr.success(res.message)
+        },
+        error: () => {
+          this.isLoading.set(false);
+          this.toastr.error('Ошибка при удалении категории');
+        }
       });
     }
   }
@@ -64,10 +89,20 @@ export class CategoryComponent implements OnInit {
   saveEdit(newTitle: string) {
     const category = this.selectedCategory();
     if (category) {
-      this.categoryService.updateCategory(category.id, {title: this.editTitle})
-        .subscribe(() => {
-          this.getAllCategories();
-          this.closeModal();
+      this.isLoading.set(true);
+
+      this.categoryService.updateCategory(category.id, { title: this.editTitle })
+        .subscribe({
+          next: (res) => {
+            this.getAllCategories();
+            this.closeModal();
+            this.isLoading.set(false);
+            this.toastr.success(res.message)
+          },
+          error: () => {
+            this.isLoading.set(false);
+            this.toastr.error('Ошибка при обновлении категории');
+          }
         });
     }
   }
