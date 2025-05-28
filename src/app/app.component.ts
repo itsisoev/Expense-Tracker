@@ -3,11 +3,12 @@ import {ActivatedRoute, NavigationEnd, Router, RouterOutlet} from '@angular/rout
 import {HeaderComponent} from "./layout/header/header.component";
 import {filter} from "rxjs";
 import {DbService} from "./core/services/db.service";
+import {TimeoutNoticeComponent} from "./layout/timeout-notice/timeout-notice.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent],
+  imports: [RouterOutlet, HeaderComponent, TimeoutNoticeComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
