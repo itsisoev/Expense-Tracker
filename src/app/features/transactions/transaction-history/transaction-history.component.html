@@ -1,36 +1,46 @@
-<div class="table-wrapper">
-  <table class="modern-table">
-    <thead>
-    <tr>
-      <th>Категория</th>
-      <th>Тип</th>
-      <th>Сумма</th>
-      <th>Дата</th>
-      <th class="actions">Действия</th>
-    </tr>
-    </thead>
-    <tbody>
-    @for(t of transactions(); track t.id) {
+@if (isLoading()) {
+  <uc-loader/>
+} @else if (transactions().length > 0) {
+  <div class="table-wrapper">
+    <table class="modern-table">
+      <thead>
       <tr>
-        <td>{{ t.title }}</td>
-        <td>
+        <th>Категория</th>
+        <th>Тип</th>
+        <th>Сумма</th>
+        <th>Дата</th>
+        <th class="actions">Действия</th>
+      </tr>
+      </thead>
+      <tbody>
+        @for (t of transactions(); track t.id) {
+          <tr>
+            <td>{{ t.title }}</td>
+            <td>
           <span [ngClass]="t.type === 'income' ? 'badge income' : 'badge expense'">
             {{ t.type === 'income' ? 'Доход' : 'Расход' }}
           </span>
-        </td>
-        <td>{{ t.amount }} ₽</td>
-        <td>{{ t.createdAt | date:'dd.MM.yyyy, HH:mm' }}</td>
-        <td class="actions">
-          <button class="btn edit" (click)="onEdit(t.id)">Изменить</button>
-          <button class="btn delete" (click)="onDelete(t.id)">Удалить</button>
-        </td>
-      </tr>
-    }
-    </tbody>
-  </table>
-</div>
+            </td>
+            <td>{{ t.amount }} ₽</td>
+            <td>{{ t.createdAt | date:'dd.MM.yyyy, HH:mm' }}</td>
+            <td class="actions">
+              <button class="btn edit" (click)="onEdit(t.id)">Изменить</button>
+              <button class="btn delete" (click)="onDelete(t.id)">Удалить</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+} @else {
+  <div class="history-banner">
+    <img src="assets/folder.png">
+    <h2>У вас пустая история</h2>
+    <p>Добавьте первую транзакцию, чтобы начать отслеживать расходы и доходы</p>
+  </div>
+}
 
-@if(openModal()) {
+@if (openModal()) {
   <uc-modal
     [openModal]="openModal()"
     [modalType]="modalType()"
@@ -42,6 +52,4 @@
   />
 }
 
-@if(isLoading()) {
-  <uc-loader />
-}
+
