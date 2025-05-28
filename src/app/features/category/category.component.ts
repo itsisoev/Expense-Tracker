@@ -1,10 +1,11 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit, output, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, output, signal} from '@angular/core';
 import {CategoryService} from "./service/category.service";
 import {ICategory} from "../../shared/models/category.model";
 import {FormsModule} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
 import {LoaderComponent} from "../../shared/components/loader/loader.component";
 import {ModalComponent} from "../../shared/components/modal/modal.component";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'app-category',
@@ -19,8 +20,9 @@ import {ModalComponent} from "../../shared/components/modal/modal.component";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CategoryComponent implements OnInit {
-  categoryService = inject(CategoryService);
-  private toastr = inject(ToastrService);
+  private readonly categoryService = inject(CategoryService);
+  private readonly toastr = inject(ToastrService);
+  private readonly destroyRef = inject(DestroyRef);
 
   selectCategory = output<{ id: string; title: string }>();
 
@@ -44,7 +46,9 @@ export class CategoryComponent implements OnInit {
   getAllCategories() {
     this.isLoading.set(true);
 
-    this.categoryService.getAllCategories().subscribe({
+    this.categoryService.getAllCategories().pipe(
+      takeUntilDestroyed(this.destroyRef),
+    ).subscribe({
       next: () => {
         this.isLoading.set(false);
       },
@@ -79,7 +83,9 @@ export class CategoryComponent implements OnInit {
     if (id) {
       this.isLoading.set(true);
 
-      this.categoryService.deleteCategory(id).subscribe({
+      this.categoryService.deleteCategory(id).pipe(
+        takeUntilDestroyed(this.destroyRef),
+      ).subscribe({
         next: (res) => {
           this.getAllCategories();
           this.closeModal();
@@ -99,8 +105,9 @@ export class CategoryComponent implements OnInit {
     if (category) {
       this.isLoading.set(true);
 
-      this.categoryService.updateCategory(category.id, { title: this.editTitle })
-        .subscribe({
+      this.categoryService.updateCategory(category.id, { title: this.editTitle }).pipe(
+        takeUntilDestroyed(this.destroyRef),
+      ).subscribe({
           next: (res) => {
             this.getAllCategories();
             this.closeModal();

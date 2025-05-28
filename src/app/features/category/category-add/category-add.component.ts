@@ -1,9 +1,10 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal} from '@angular/core';
 import {AuthService} from "../../../core/services/auth.service";
 import {FormsModule} from "@angular/forms";
 import {CategoryService} from "../service/category.service";
 import {ToastrService} from "ngx-toastr";
 import {LoaderComponent} from "../../../shared/components/loader/loader.component";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'app-category-add',
@@ -17,9 +18,10 @@ import {LoaderComponent} from "../../../shared/components/loader/loader.componen
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CategoryAddComponent implements OnInit {
-  authService = inject(AuthService);
-  categoryService = inject(CategoryService)
-  private toastr = inject(ToastrService);
+  private readonly authService = inject(AuthService);
+  private readonly categoryService = inject(CategoryService)
+  private readonly toastr = inject(ToastrService);
+  private readonly destroyRef = inject(DestroyRef);
 
   title: string = '';
 
@@ -40,7 +42,9 @@ export class CategoryAddComponent implements OnInit {
       return;
     }
 
-    this.categoryService.createCategory({ title: this.title }).subscribe({
+    this.categoryService.createCategory({ title: this.title }).pipe(
+      takeUntilDestroyed(this.destroyRef),
+    ).subscribe({
       next: (res) => {
         this.isLoading.set(false);
         this.toastr.success(res?.message || 'Категория успешно создана');

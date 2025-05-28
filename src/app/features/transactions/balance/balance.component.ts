@@ -1,8 +1,8 @@
-import {ChangeDetectionStrategy, Component, effect, inject, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal} from '@angular/core';
 import {BalanceService} from "./service/balance.service";
 import {LoaderComponent} from "../../../shared/components/loader/loader.component";
-import {Subscription} from "rxjs";
 import {TransactionService} from "../service/transaction.service";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'balance',
@@ -17,29 +17,31 @@ import {TransactionService} from "../service/transaction.service";
 export class BalanceComponent implements OnInit{
   private readonly balanceService = inject(BalanceService);
   private readonly transactionService = inject(TransactionService);
+  private readonly destroyRef = inject(DestroyRef);
 
   totalBalance = signal<number>(0);
   income = signal<number>(0);
   expense = signal<number>(0);
   isLoading = signal<boolean>(false);
 
-  private sub = new Subscription();
-
   ngOnInit() {
     this.loadBalance();
     this.loadSplit();
-    this.sub.add(
-      this.transactionService.transactionsChanged$.subscribe(() => {
+
+    this.transactionService.transactionsChanged$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
         this.loadBalance();
         this.loadSplit();
-      })
-    );
+      });
   }
 
   loadBalance() {
     this.isLoading.set(true);
 
-    this.balanceService.getBalance().subscribe({
+    this.balanceService.getBalance().pipe(
+      takeUntilDestroyed(this.destroyRef),
+    ).subscribe({
       next: (balance) => {
         this.totalBalance.set(balance)
         this.isLoading.set(false);
@@ -54,7 +56,9 @@ export class BalanceComponent implements OnInit{
   loadSplit() {
     this.isLoading.set(true);
 
-    this.balanceService.getSplitTransactions().subscribe({
+    this.balanceService.getSplitTransactions().pipe(
+      takeUntilDestroyed(this.destroyRef),
+    ).subscribe({
       next: ({income, expense}) => {
         const incomeSum = income.reduce((acc, cur) => acc + (cur.amount ?? 0), 0);
         const expenseSum = expense.reduce((acc, cur) => acc + (cur.amount ?? 0), 0);
