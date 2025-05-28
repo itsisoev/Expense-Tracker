@@ -4,13 +4,15 @@ import {ICategory} from "../../shared/models/category.model";
 import {FormsModule} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
 import {LoaderComponent} from "../../shared/components/loader/loader.component";
+import {ModalComponent} from "../../shared/components/modal/modal.component";
 
 @Component({
   selector: 'app-category',
   standalone: true,
   imports: [
     FormsModule,
-    LoaderComponent
+    LoaderComponent,
+    ModalComponent
   ],
   templateUrl: './category.component.html',
   styleUrl: './category.component.scss',
