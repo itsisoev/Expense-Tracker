@@ -10,7 +10,7 @@ import {ThemeService} from "../../core/services/theme.service";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ThemeToggleComponent {
-  private themeService = inject(ThemeService);
+  private readonly themeService = inject(ThemeService);
 
   isWhiteMode = this.themeService.isWhiteMode;
 

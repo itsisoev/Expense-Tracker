@@ -1,10 +1,11 @@
-import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, signal} from '@angular/core';
 import {Router, RouterLink} from "@angular/router";
 import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {AuthService} from "../../../core/services/auth.service";
 
 import {ToastrService} from "ngx-toastr";
 import {LoaderComponent} from "../../../shared/components/loader/loader.component";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'auth-register',
@@ -19,10 +20,11 @@ import {LoaderComponent} from "../../../shared/components/loader/loader.componen
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegisterComponent {
-  fb = inject(FormBuilder);
-  private toastr = inject(ToastrService);
-  private router = inject(Router);
-  private authService = inject(AuthService);
+  private readonly fb = inject(FormBuilder);
+  private readonly toastr = inject(ToastrService);
+  private readonly router = inject(Router);
+  private readonly authService = inject(AuthService);
+  private readonly destroyRef = inject(DestroyRef);
 
   authForm = this.fb.group({
     username: this.fb.control('', [Validators.required]),
@@ -39,7 +41,9 @@ export class RegisterComponent {
       password: password ?? '',
     };
 
-    this.authService.register(userData).subscribe({
+    this.authService.register(userData).pipe(
+      takeUntilDestroyed(this.destroyRef),
+    ).subscribe({
       next: (res) => {
         this.isLoading.set(false);
         if (res?.status === 'success') {

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, signal} from '@angular/core';
 import {CategoryAddComponent} from "../../category/category-add/category-add.component";
 import {CategoryComponent} from "../../category/category.component";
 import {BalanceComponent} from "../balance/balance.component";
@@ -7,6 +7,7 @@ import {CreateTransactionDto} from "../../../shared/models/transaction.model";
 import {ToastrService} from "ngx-toastr";
 import {FormsModule} from "@angular/forms";
 import {LoaderComponent} from "../../../shared/components/loader/loader.component";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'app-transaction-form',
@@ -24,7 +25,8 @@ import {LoaderComponent} from "../../../shared/components/loader/loader.componen
 })
 export class TransactionFormComponent {
   private readonly transactionService = inject(TransactionService);
-  private toastr = inject(ToastrService);
+  private readonly toastr = inject(ToastrService);
+  private readonly destroyRef = inject(DestroyRef);
 
   amount: number = 0;
   type = signal<'income' | 'expense'>('income');
@@ -39,6 +41,7 @@ export class TransactionFormComponent {
     const type = this.type();
 
     if (!amount || !categoryId) {
+      this.isLoading.set(false);
       this.toastr.error('Введите сумму и выберите категорию');
       return;
     }
@@ -50,7 +53,9 @@ export class TransactionFormComponent {
       category: {id: categoryId}
     };
 
-    this.transactionService.createTransaction(dto).subscribe({
+    this.transactionService.createTransaction(dto).pipe(
+      takeUntilDestroyed(this.destroyRef),
+    ).subscribe({
       next: () => {
         this.toastr.success('Транзакция добавлена');
         this.amount = 0;
