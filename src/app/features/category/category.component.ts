@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, output, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnInit, output, signal} from '@angular/core';
 import {CategoryService} from "./service/category.service";
 import {ICategory} from "../../shared/models/category.model";
 import {FormsModule} from "@angular/forms";
@@ -28,6 +28,8 @@ export class CategoryComponent implements OnInit {
 
   editTitle: string = '';
 
+  visibleCount = signal<number>(5);
+  searchTerm = signal<string>('');
   openModal = signal<boolean>(false);
   modalType = signal<'edit' | 'delete' | null>(null);
   selectedCategory = signal<ICategory | null>(null);
@@ -35,8 +37,28 @@ export class CategoryComponent implements OnInit {
 
   categories = this.categoryService.categories;
 
+  filteredCategories = computed(() => {
+    const term = this.searchTerm().toLowerCase();
+    const filtered = this.categories().filter(category =>
+      category.title.toLowerCase().includes(term)
+    );
+    return filtered.slice(0, this.visibleCount());
+  });
+
+  showLoadMoreButton = computed(() => {
+    const totalFiltered = this.categories().filter(c =>
+      c.title.toLowerCase().includes(this.searchTerm().toLowerCase())
+    );
+
+    return totalFiltered.length > this.visibleCount() && totalFiltered.length >= 5;
+  });
+
   ngOnInit() {
     this.getAllCategories();
+  }
+
+  loadMore() {
+    this.visibleCount.update(n => n + 5);
   }
 
   selectCategoryEmit(category: ICategory) {

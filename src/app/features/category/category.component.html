@@ -4,11 +4,12 @@
   </div>
 
   <div class="category-container__input">
-    <input type="text" placeholder="Искать категории...">
+    <input type="text" placeholder="Искать категории..." [(ngModel)]="searchTerm"
+           (ngModelChange)="searchTerm.set($event)">
   </div>
 
   <div class="category-container__categories">
-    @for (category of categories(); track category.id) {
+    @for (category of filteredCategories(); track category.id) {
       <div class="category-container__category-group">
         <input
           type="radio"
@@ -54,10 +55,14 @@
         </div>
       </div>
     }
+
+    @if (showLoadMoreButton()) {
+      <button class="category-container__btn-more" (click)="loadMore()">Загрузить еще</button>
+    }
   </div>
 </div>
 
-@if(openModal()) {
+@if (openModal()) {
   <uc-modal
     [openModal]="openModal()"
     [modalType]="modalType()"

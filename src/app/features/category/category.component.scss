@@ -103,6 +103,18 @@
       background-color: transparent;
     }
   }
+
+  &__btn-more {
+    border: none;
+    outline: none;
+    height: 2.5rem;
+    font-size: 1rem;
+    background-color: var(--background-card);
+    color: var(--text-color);
+    border-radius: 0.3125rem;
+    margin-bottom: 2.5rem;
+    cursor: pointer;
+  }
 }
 
 @media (max-width: 768px) {
