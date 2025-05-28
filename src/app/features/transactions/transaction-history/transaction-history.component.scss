@@ -86,6 +86,15 @@
   background-color: #c0392b;
 }
 
+.history-banner {
+  margin-top: 4.375rem;
+  text-align: center;
+
+  p {
+    margin-top: 1.25rem;
+  }
+}
+
 @media (max-width: 768px) {
   .modern-table thead {
     display: none;
@@ -129,5 +138,23 @@
 
   .btn {
     margin-top: 0.375rem;
+  }
+
+  .history-banner {
+    margin-top: 4.375rem;
+    text-align: center;
+
+    h2 {
+      font-size: 1rem;
+    }
+
+    img {
+      width: 6.25rem;
+    }
+
+    p {
+      font-size: 0.875rem;
+      margin-top: 1.25rem;
+    }
   }
 }
