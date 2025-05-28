@@ -1,0 +1,30 @@
+@if (openModal()) {
+  <div class="modal-backdrop" (click)="closeModal.emit()"></div>
+
+  <div class="modal">
+    @switch (modalType()) {
+      @case ('delete') {
+        <div>
+          <p>Вы действительно хотите удалить категорию <strong>{{ selectedTitle() }}</strong>?</p>
+          <div class="modal-btns">
+            <button (click)="confirmDelete.emit()" class="btn-save">Да</button>
+            <button (click)="closeModal.emit()" class="btn-cancel">Нет</button>
+          </div>
+        </div>
+      }
+      @case ('edit') {
+        <div>
+          <input
+            [(ngModel)]="editTitle"
+            type="text"
+            placeholder="Новое название категории"
+          />
+          <div class="modal-btns">
+            <button (click)="onSaveClick()" class="btn-save">Сохранить</button>
+            <button (click)="closeModal.emit()" class="btn-cancel">Отменить</button>
+          </div>
+        </div>
+      }
+    }
+  </div>
+}

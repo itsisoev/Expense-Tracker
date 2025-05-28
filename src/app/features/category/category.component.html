@@ -57,38 +57,18 @@
   </div>
 </div>
 
-@if (openModal()) {
-  <div
-    class="modal-backdrop"
-    (click)="closeModal()"
-  ></div>
+@if(openModal()) {
+  <uc-modal
+    [openModal]="openModal()"
+    [modalType]="modalType()"
+    [selectedTitle]="selectedCategory()?.title ?? null"
+    [(editTitle)]="editTitle"
+    (closeModal)="closeModal()"
+    (confirmDelete)="confirmDelete()"
+    (saveEdit)="saveEdit($event)"
+  />
 }
 
-@if (openModal()) {
-  <div class="modal">
-    @if (modalType() === 'delete') {
-      <p>Вы действительно хотите удалить категорию <strong>{{ selectedCategory()?.title }}</strong>?</p>
-      <div class="modal-btns">
-        <button (click)="confirmDelete()" class="btn-save">Да</button>
-        <button (click)="closeModal()" class="btn-cancel">Нет</button>
-      </div>
-    }
-
-    @if (modalType() === 'edit') {
-      <input
-        [(ngModel)]="editTitle"
-        type="text"
-        placeholder="Новое название категории"
-      />
-
-      <div class="modal-btns">
-        <button (click)="saveEdit(selectedCategory()?.title ?? '')" class="btn-save">Сохранить</button>
-        <button (click)="closeModal()" class="btn-cancel">Отменить</button>
-      </div>
-    }
-  </div>
-}
-
-@if(isLoading()) {
-  <uc-loader />
+@if (isLoading()) {
+  <uc-loader/>
 }

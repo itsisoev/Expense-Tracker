@@ -1,8 +1,8 @@
 import {inject, Injectable} from '@angular/core';
 import {environment} from "../../../../environments/environment.development";
 import {HttpClient} from "@angular/common/http";
-import {CreateTransactionDto} from "../../../shared/models/transaction.model";
-import {Subject, tap} from "rxjs";
+import {CreateTransactionDto, Transaction, UpdateTransactionDto} from "../../../shared/models/transaction.model";
+import {Observable, Subject, tap} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +20,22 @@ export class TransactionService {
       tap(() => {
         this._transactionsChanged.next();
       })
+    );
+  }
+
+  getTransactions(): Observable<Transaction[]> {
+    return this.http.get<Transaction[]>(this.baseAPI);
+  }
+
+  updateTransaction(id: string, type: string, dto: UpdateTransactionDto) {
+    return this.http.patch(`${this.baseAPI}/${type}/${id}`, dto).pipe(
+      tap(() => this._transactionsChanged.next())
+    );
+  }
+
+  deleteTransaction(id: string, type: string) {
+    return this.http.delete(`${this.baseAPI}/${type}/${id}`).pipe(
+      tap(() => this._transactionsChanged.next())
     );
   }
 }
