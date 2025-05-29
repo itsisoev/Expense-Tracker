@@ -1,7 +1,12 @@
 import {inject, Injectable} from '@angular/core';
 import {environment} from "../../../../environments/environment.development";
 import {HttpClient} from "@angular/common/http";
-import {CreateTransactionDto, Transaction, UpdateTransactionDto} from "../../../shared/models/transaction.model";
+import {
+  CreateTransactionDto,
+  PeriodStats,
+  Transaction,
+  UpdateTransactionDto
+} from "../../../shared/models/transaction.model";
 import {Observable, Subject, tap} from "rxjs";
 
 @Injectable({
@@ -38,4 +43,9 @@ export class TransactionService {
       tap(() => this._transactionsChanged.next())
     );
   }
+
+  getStatsByPeriod(period: 'week' | 'month' | 'year'): Observable<{ period: string; data: PeriodStats[] }> {
+    return this.http.get<{ period: string; data: PeriodStats[] }>(`${this.baseAPI}/stats?period=${period}`);
+  }
+
 }

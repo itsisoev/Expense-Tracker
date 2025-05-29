@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {ChangeDetectionStrategy, Component, signal} from '@angular/core';
 import {AnalyticsChartComponent} from "./analytics-chart/analytics-chart.component";
 
 @Component({
@@ -12,5 +12,9 @@ import {AnalyticsChartComponent} from "./analytics-chart/analytics-chart.compone
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AnalyticsComponent {
+  period= signal<'week' | 'month' | 'year'>('week');
 
+  setPeriod(p: 'week' | 'month' | 'year') {
+    this.period.set(p);
+  }
 }

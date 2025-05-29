@@ -1,0 +1,42 @@
+.analytics-wrapper {
+  max-width: 56.25rem;
+  margin: 1.25rem auto;
+  font-family: inherit;
+
+  .period-buttons {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-bottom: 2.5rem;
+
+    button {
+      padding: 0.5rem 1.125rem;
+      border-radius: 0.375rem;
+      border: 1.5px solid #ccc;
+      background-color: white;
+      color: #444;
+      font-weight: 500;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+
+      &:hover:not(.active) {
+        background-color: #f7f7f7;
+        border-color: #999;
+        color: #222;
+      }
+
+      &.active {
+        background-color: #3f51b5;
+        border-color: #3f51b5;
+        color: white;
+        font-weight: 600;
+      }
+
+      &:focus-visible {
+        outline: 0.125rem solid #3f51b5;
+        outline-offset: 0.125rem;
+      }
+    }
+  }
+}

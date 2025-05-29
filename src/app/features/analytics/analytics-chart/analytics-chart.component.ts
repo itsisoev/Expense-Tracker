@@ -1,99 +1,98 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import {NgxEchartsDirective} from "ngx-echarts";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+  OnChanges,
+  SimpleChanges,
+  signal,
+  input
+} from '@angular/core';
+import {NgxEchartsDirective} from 'ngx-echarts';
+import {TransactionService} from '../../transactions/service/transaction.service';
+import dayjs from 'dayjs';
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {EChartsCoreOption} from "echarts/core";
+import {LoaderComponent} from "../../../shared/components/loader/loader.component";
+import {ToastrService} from "ngx-toastr";
+
 
 @Component({
   selector: 'features-analytics-chart',
   standalone: true,
-  imports: [
-    NgxEchartsDirective
-  ],
+  imports: [NgxEchartsDirective, LoaderComponent],
   templateUrl: './analytics-chart.component.html',
-  styleUrl: './analytics-chart.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./analytics-chart.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AnalyticsChartComponent {
-  chartOption = {
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        type: 'cross',
-        crossStyle: {
-          color: '#999'
-        }
-      }
-    },
-    toolbox: {
-      feature: {
-        dataView: { show: true, readOnly: false },
-        saveAsImage: { show: true }
-      }
-    },
-    legend: {
-      data: ['Расход', 'Доход', '']
-    },
-    xAxis: [
-      {
-        type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-        axisPointer: {
-          type: 'shadow'
-        }
-      }
-    ],
-    yAxis: [
-      {
-        type: 'value',
-        name: 'Доход',
-        min: 0,
-        max: 250,
-        interval: 50,
-        axisLabel: {
-          formatter: '{value} ml'
-        }
-      },
-      {
-        type: 'value',
-        name: '',
-        min: 0,
-        max: 25,
-        interval: 5,
-        axisLabel: {
-          formatter: '{value} °C'
-        }
-      }
-    ],
-    series: [
-      {
-        name: 'Расход',
-        type: 'bar',
-        tooltip: {
-          valueFormatter: function (value: number) {
-            return value + ' ml';
-          }
+export class AnalyticsChartComponent implements OnChanges {
+  private readonly transactionService = inject(TransactionService);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly toastr = inject(ToastrService);
+
+  period = input<'week' | 'month' | 'year'>('week')
+
+  chartOption = signal<EChartsCoreOption>({});
+  isLoading = signal<boolean>(false);
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['period']) {
+      this.loadData(this.period());
+    }
+  }
+
+  private loadData(period: 'week' | 'month' | 'year') {
+    const dates = this.generateDates(period);
+    this.isLoading.set(true);
+
+    this.transactionService.getStatsByPeriod(period)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: ({data}) => {
+          const incomeMap = new Map(data.map(d => [d.date, d.income]));
+          const expenseMap = new Map(data.map(d => [d.date, d.expense]));
+
+          const incomes = dates.map(date => incomeMap.get(date) ?? 0);
+          const expenses = dates.map(date => expenseMap.get(date) ?? 0);
+
+          this.chartOption.set({
+            tooltip: {trigger: 'axis', axisPointer: {type: 'shadow'}},
+            legend: {data: ['Доход', 'Расход']},
+            xAxis: {type: 'category', data: dates},
+            yAxis: {type: 'value'},
+            series: [
+              {name: 'Доход', type: 'bar', data: incomes},
+              {name: 'Расход', type: 'bar', data: expenses},
+            ],
+          });
         },
-        data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6]
-      },
-      {
-        name: 'Доход',
-        type: 'bar',
-        tooltip: {
-          valueFormatter: function (value: number) {
-            return value + ' ml';
-          }
+        error: () => {
+          this.toastr.error('Ошибка при загрузки анализа', 'Ошибка')
         },
-        data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6]
-      },
-      {
-        name: '',
-        type: 'line',
-        yAxisIndex: 1,
-        tooltip: {
-          valueFormatter: function (value: number) {
-            return value + ' °C';
-          }
-        },
-        data: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3]
+        complete: () => {
+          this.isLoading.set(false);
+        }
+      });
+  }
+
+  private generateDates(period: 'week' | 'month' | 'year'): string[] {
+    const dates: string[] = [];
+    const now = dayjs();
+
+    if (period === 'year') {
+      for (let i = 11; i >= 0; i--) {
+        dates.push(now.subtract(i, 'month').format('YYYY-MM'));
       }
-    ]
-  };
+    } else if (period === 'month') {
+      const daysInMonth = now.daysInMonth();
+      for (let i = daysInMonth - 1; i >= 0; i--) {
+        dates.push(now.subtract(i, 'day').format('YYYY-MM-DD'));
+      }
+    } else {
+      for (let i = 6; i >= 0; i--) {
+        dates.push(now.subtract(i, 'day').format('YYYY-MM-DD'));
+      }
+    }
+    return dates;
+  }
 }
