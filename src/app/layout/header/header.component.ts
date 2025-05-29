@@ -21,7 +21,7 @@ export interface HeaderLink {
 export class HeaderComponent {
   links = signal<HeaderLink[]>([
     {label: 'Основное', href: '/'},
-    {label: 'Отчет', href: '#'},
+    {label: 'Аналитика', href: '/analytics'},
     {label: 'История', href: '/history'}
   ])
 
