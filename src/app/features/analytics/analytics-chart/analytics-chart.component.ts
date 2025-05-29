@@ -49,6 +49,7 @@ export class AnalyticsChartComponent implements OnChanges {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: ({data}) => {
+          this.isLoading.set(false);
           const incomeMap = new Map(data.map(d => [d.date, d.income]));
           const expenseMap = new Map(data.map(d => [d.date, d.expense]));
 
@@ -68,8 +69,6 @@ export class AnalyticsChartComponent implements OnChanges {
         },
         error: () => {
           this.toastr.error('Ошибка при загрузки анализа', 'Ошибка')
-        },
-        complete: () => {
           this.isLoading.set(false);
         }
       });
