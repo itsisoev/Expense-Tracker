@@ -35,4 +35,10 @@ export class HeaderComponent {
   isOpen() {
     return this.menuOpen();
   }
+
+  closeMenuIfMobile() {
+    if (window.innerWidth <= 768) {
+      this.menuOpen.set(false);
+    }
+  }
 }

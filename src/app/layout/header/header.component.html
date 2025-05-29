@@ -5,7 +5,7 @@
     <ul class="links" [class.open]="isOpen()">
       @for (link of links(); track link) {
         <li>
-          <a [routerLink]="link.href">{{ link.label }}</a>
+          <a [routerLink]="link.href" (click)="closeMenuIfMobile()">{{ link.label }}</a>
         </li>
       }
     </ul>

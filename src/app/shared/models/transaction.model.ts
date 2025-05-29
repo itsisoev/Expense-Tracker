@@ -28,3 +28,9 @@ export interface UpdateTransactionDto {
   type?: TransactionType;
   category?: { id: string };
 }
+
+export interface PeriodStats {
+  date: string;
+  income: number;
+  expense: number;
+}

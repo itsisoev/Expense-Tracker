@@ -1,1 +1,8 @@
-<features-analytics-chart />
+<div class="analytics-wrapper">
+  <div class="period-buttons">
+    <button (click)="setPeriod('week')" [class.active]="period() === 'week'">Неделя</button>
+    <button (click)="setPeriod('month')" [class.active]="period() === 'month'">Месяц</button>
+    <button (click)="setPeriod('year')" [class.active]="period() === 'year'">Год</button>
+  </div>
+  <features-analytics-chart [period]="period()"></features-analytics-chart>
+</div>
