@@ -8,6 +8,7 @@ import {JWT_OPTIONS, JwtHelperService} from "@auth0/angular-jwt";
 import {provideServiceWorker} from '@angular/service-worker';
 import {provideAnimations} from "@angular/platform-browser/animations";
 import {provideToastr} from "ngx-toastr";
+import {provideEchartsCore} from 'ngx-echarts';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -32,8 +33,9 @@ export const appConfig: ApplicationConfig = {
     }),
     provideAnimations(),
     provideToastr({
-      timeOut: 3000,
+      timeOut: 4000,
       preventDuplicates: true,
     }),
+    provideEchartsCore({echarts: () => import('echarts')})
   ]
 };
